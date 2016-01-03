@@ -1,6 +1,6 @@
 git "/home/vagrant/repos/apdevblog.com" do
   repository "git@github.com:apdev/apdevblog.com.git"
-  ignore_failure true
+  enable_checkout false
   checkout_branch "master"
   user "vagrant"
   group "vagrant"
