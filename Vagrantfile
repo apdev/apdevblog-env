@@ -54,7 +54,6 @@ Vagrant.configure(2) do |config|
       curl -L https://get.rvm.io | bash -s stable --ruby
       apt-get install -y python-pip
       pip install awscli
-      aws configure set preview.cloudfront true
     }
   end
 
