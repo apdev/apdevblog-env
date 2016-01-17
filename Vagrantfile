@@ -58,6 +58,7 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.provision "apdevblog", type: "chef_solo" do |chef|
+    chef.add_recipe "default::timezone"
     chef.add_recipe "default::repo"
   end
 
