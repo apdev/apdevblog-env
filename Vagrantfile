@@ -26,6 +26,8 @@ Vagrant.configure(2) do |config|
     vm.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/repos", "1"]
     vm.customize ["modifyvm", :id, "--memory", "512"]
     vm.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    # http://jeremykendall.net/2014/10/06/forcing-an-ntp-update/
+    vm.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000]
   end
 
   config.omnibus.chef_version = :latest
