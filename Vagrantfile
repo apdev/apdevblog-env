@@ -2,8 +2,7 @@ $enable_serial_logging = false
 
 Vagrant.configure(2) do |config|
 
-  config.vm.box = "trusty64"
-  config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
+  config.vm.box = "bento/ubuntu-14.04"
 
   config.ssh.forward_agent = true
   config.vm.hostname = "apdevbox"
@@ -14,12 +13,28 @@ Vagrant.configure(2) do |config|
   # workaround for vagrant 1.7.2 bug
   # https://github.com/mitchellh/vagrant/issues/5199
   config.trigger.after [:suspend, :halt], stdout: true do 
-    # errors on "halt", folder not found
-    `rm .vagrant/machines/default/virtualbox/synced_folders`
+    if File.exist?(".vagrant/machines/default/virtualbox/synced_folders")
+      `rm .vagrant/machines/default/virtualbox/synced_folders`
+    end
+
+    if File.exist?(".vagrant/machines/default/vmware_fusion/synced_folders")
+      `rm .vagrant/machines/default/vmware_fusion/synced_folders`
+    end
   end
 
   config.trigger.before [:reload], stdout: true do 
-    `rm .vagrant/machines/default/virtualbox/synced_folders`
+    if File.exist?(".vagrant/machines/default/virtualbox/synced_folders")
+      `rm .vagrant/machines/default/virtualbox/synced_folders`
+    end
+
+    if File.exist?(".vagrant/machines/default/vmware_fusion/synced_folders")
+      `rm .vagrant/machines/default/vmware_fusion/synced_folders`
+    end
+  end
+
+  config.vm.provider "vmware_fusion" do |vm|
+    vm.vmx["memsize"] = "512"
+    vm.vmx["numvcpus"] = "1"
   end
 
   config.vm.provider "virtualbox" do |vm|
